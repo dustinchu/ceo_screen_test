@@ -5,9 +5,11 @@ import 'package:ecocore_screen_test/common/style/colors.dart';
 import 'package:ecocore_screen_test/page/device/device_title_appbar.dart';
 import 'package:ecocore_screen_test/widget/arrow_back.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
 import 'chart_widget/device_chart.dart';
+import 'device_clock_scrren.dart';
 import 'device_display.dart';
 import 'device_menu.dart';
 import 'device_switch.dart';
@@ -20,11 +22,11 @@ class DeviceScreen extends StatefulWidget {
 }
 
 bool showBottomMenu = false;
+bool switchOnStatis = false;
 
 class _DeviceScreenState extends State<DeviceScreen> {
   @override
   Widget build(BuildContext context) {
-    final GlobalKey globalKey = GlobalKey();
     VoidCallback arrowClick() {}
     VoidCallback deviceSwitchTop() {}
     VoidCallback deviceSwitchLedf() {}
@@ -50,7 +52,6 @@ class _DeviceScreenState extends State<DeviceScreen> {
 
     double maxWidth = MediaQuery.of(context).size.width;
     double maxHeight = MediaQuery.of(context).size.height;
-    double threshold = 100;
     return Scaffold(
       backgroundColor: wBackground,
       body: SafeArea(
@@ -67,8 +68,8 @@ class _DeviceScreenState extends State<DeviceScreen> {
               ),
               Container(
                 // iphone6 要縮小一點
-                width:  maxHeight > 800 ?maxWidth - 60:maxWidth - 70,
-                height: maxHeight > 800 ?maxWidth - 60:maxWidth - 70,
+                width: maxHeight > 800 ? maxWidth - 60 : maxWidth - 70,
+                height: maxHeight > 800 ? maxWidth - 60 : maxWidth - 70,
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 decoration: new BoxDecoration(
                   color: wLogoarial,
@@ -116,34 +117,54 @@ class _DeviceScreenState extends State<DeviceScreen> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(30.0)),
                           ),
-                          child: Center(
-                            child: DeviceDisplay(
-                              w: constraints.maxWidth - 25,
-                              h: constraints.maxWidth - 25,
-                              name: "落地燈",
-                              ntd: "123.05",
-                              clockCallback: displayClock,
-                              powerCallback: displayPower,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 20),
+                            child: Column(
+                              children: [
+                                ArrowBack(
+                                  text: "定時",
+                                  click: () {},
+                                  fonStyle: wFontH2,
+                                ),
+                                SizedBox(height: 20,),
+                               DeviceClockScreen(status:switchOnStatis ,name:"開啟時間",switchCallBack: (val){
+                                 setState(() {
+                                   switchOnStatis=val;
+                                 });
+                               },),
+                              ],
                             ),
                           ),
+                          // child: Center(
+                          //   child: DeviceDisplay(
+                          //     w: constraints.maxWidth - 25,
+                          //     h: constraints.maxWidth - 25,
+                          //     name: "落地燈",
+                          //     ntd: "123.05",
+                          //     clockCallback: displayClock,
+                          //     powerCallback: displayPower,
+                          //   ),
+                          // ),
                         );
                       },
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 60,),
+              SizedBox(
+                height: 60,
+              ),
               Expanded(
                 child: Container(),
               ),
             ],
           ),
-
           AnimatedPositioned(
               curve: Curves.easeInOut,
               duration: Duration(milliseconds: 200),
               left: 0,
-               bottom: (showBottomMenu)?-60:-(maxHeight/3),
+              bottom: (showBottomMenu) ? -60 : -(maxHeight / 3),
               child: SimpleGestureDetector(
                   onVerticalSwipe: _onVerticalSwipe, child: MenuWidget()))
         ],

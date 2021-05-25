@@ -1,8 +1,33 @@
 import 'package:ecocore_screen_test/common/style/colors.dart';
 import 'package:ecocore_screen_test/common/util/menu.dart';
+import 'package:ecocore_screen_test/widget/search_textField.dart';
 import 'package:flutter/material.dart';
 
-class MenuWidget extends StatelessWidget {
+class MenuWidget extends StatefulWidget {
+  MenuWidget({Key key}) : super(key: key);
+
+  @override
+  _MenuWidgetState createState() => _MenuWidgetState();
+}
+
+class _MenuWidgetState extends State<MenuWidget> {
+  TextEditingController _searchController;
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // Call the dispose() method of the TextEditingController
+    // here, and remember to do it before the super call, as
+    // per official documentation:
+    // https://api.flutter.dev/flutter/widgets/TextEditingController-class.html
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -44,31 +69,10 @@ class MenuWidget extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(30.0)),
                   )),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: TextField(
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.white,
-                    ),
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(0.0, 0, 0.0, 0),
-                        prefixIcon: Icon(Icons.search, color: Colors.white),
-                        filled: true,
-                        fillColor: wBlue3,
-                        border: OutlineInputBorder(
-                            // borderSide: BorderSide(color: wBlue3, width: 32.0),
-                            borderRadius: BorderRadius.circular(25.0)),
-                        focusedBorder: OutlineInputBorder(
-                            // borderSide: BorderSide(color: wBlue3, width: 32.0),
-                            borderRadius: BorderRadius.circular(25.0)))),
-              ),
+              Search_textField(searchController:_searchController ,),
               Expanded(
                 child: ListView(
-                  
                   children: [
-
                     //螢幕寬度>400  一行顯示3個
                     for (var i = 0; i < menuData.length ~/ carSize; i++)
                       carSize == 3
@@ -108,7 +112,7 @@ class MenuWidget extends StatelessWidget {
                                         menuData[i * 2 + 1].safeIndex),
                               ],
                             ),
-                    //剩餘的額外顯示在最後一層
+                    //一行三個 或兩個 最後餘數 額外顯示在最後一行
                     if (menuData.length % carSize == 1)
                       MediaQuery.of(context).size.width > 400
                           ? Row(
@@ -141,7 +145,9 @@ class MenuWidget extends StatelessWidget {
                                     color: Colors.transparent)
                               ],
                             ),
-                            SizedBox(height: 100,)
+                    SizedBox(
+                      height: 100,
+                    )
                   ],
                 ),
               )
@@ -171,7 +177,7 @@ class MenuCard extends StatelessWidget {
       wSafeColorYellow,
       wSafeColorRed,
     ];
-      bool phoneSize =MediaQuery.of(context).size.width > 400 ?true:false;
+    bool phoneSize = MediaQuery.of(context).size.width > 400 ? true : false;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10),
       margin: EdgeInsets.only(bottom: 10),
@@ -184,8 +190,12 @@ class MenuCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Image.asset("assets/device/$imgName.png"),
-          phoneSize?SizedBox(width: 5,):Container(),
+          Image.asset("assets/device/$imgName.png",width: 40,height: 40,),
+          phoneSize
+              ? SizedBox(
+                  width: 5,
+                )
+              : Container(),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -198,7 +208,7 @@ class MenuCard extends StatelessWidget {
                 style: wMenuFontSize,
               ),
               Container(
-                margin: EdgeInsets.only(top:5),
+                margin: EdgeInsets.only(top: 5),
                 width: 10,
                 height: 10,
                 decoration: BoxDecoration(
@@ -206,7 +216,6 @@ class MenuCard extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(50.0)),
                 ),
               ),
-              
             ],
           ),
         ],

@@ -69,6 +69,7 @@ class _RegisteredScreenState extends State<RegisteredScreen> {
                       Opacity(
                         opacity: showDialogStatus ? 0.0 : 1.0,
                         child: ArrowBack(
+                          fonStyle: wFontBoldH1,
                           text: "註冊",
                           click: backClick,
                         ),

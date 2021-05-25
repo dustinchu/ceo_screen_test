@@ -26,6 +26,7 @@ class DeviceTitleAppbar extends StatelessWidget {
               // bottom: 30,
             ),
             child: ArrowBack(
+              fonStyle: wFontBoldH1,
               click: arrowClick,
               text: "客廳",
             ),

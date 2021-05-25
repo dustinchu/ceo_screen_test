@@ -63,3 +63,8 @@ const wFontH5 = TextStyle(color: wBlue2, fontSize: 10);
 
 ///Size 14
 const wMenuFontSize = TextStyle(color: wBlue2, fontSize: 12);
+
+
+///Size14
+const wBtnFontBoldH4 =
+    TextStyle(color: wSwitch, fontWeight: FontWeight.bold, fontSize: 14);

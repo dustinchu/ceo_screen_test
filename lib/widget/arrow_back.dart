@@ -2,10 +2,15 @@ import 'package:ecocore_screen_test/common/style/colors.dart';
 import 'package:flutter/material.dart';
 
 class ArrowBack extends StatelessWidget {
-  ArrowBack({Key key, @required this.text, @required this.click})
+  ArrowBack(
+      {Key key,
+      @required this.text,
+      @required this.click,
+      @required this.fonStyle})
       : super(key: key);
   VoidCallback click;
   String text;
+  TextStyle fonStyle;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -29,7 +34,7 @@ class ArrowBack extends StatelessWidget {
         ),
         Text(
           text,
-          style: wFontBoldH1,
+          style: fonStyle,
         )
       ],
     );
